@@ -4,55 +4,49 @@ describe Game do
     describe 'find winner' do
 
 
-        context '#counts_spaces' do
-            subject(:game_1) { described_class.new(4) }            
+        context '#finds 4 equals' do
+            subject(:game_1) { described_class.new(7) }            
 
             let(:board_1) {subject.board.board}
 
 
-           context 'all white' do 
-            it 'does not count a blank space' do
-                expect(subject.counts_spaces(board_1[0])).to eq([0, 0])
+           context 'is truthy' do 
+            it 'identifies all empty' do
+                expect(subject.four_equals(board_1[0])).to eq(["\u25EF"])
             end
            end
 
-           context 'black' do
+           context 'all black' do
+            it 'finds all black' do
+                board_1[0][0] = "\u26AB"
 
-            before do
-                board_1[0][-2] = "\u26AA"
+                board_1[0][1] = "\u26AB"
+
+                board_1[0][2] = "\u26AB"
+
+                board_1[0][3] = "\u26AB"
+                expect(subject.four_equals(board_1[0])).to eq(["\u26AB"])
             end
-            it 'changes counter_1' do
-                expect(subject.counts_spaces(board_1[0][0..-2])).to eq([1, 0])
+            it 'finds all black separeted and return true' do
+                board_1[0][0] = "\u26AB"
+
+                board_1[0][2] = "\u26AB"
+
+                board_1[0][4] = "\u26AB"
+
+                board_1[0][6] = "\u26AB"
+                expect(subject.four_equals(board_1[0])).to be_falsy
             end
            end
 
-           context 'player 2' do 
-            before do
-                board_1[0][-2] = "\u26AB"
-            end
-                it 'changes counter_2' do
-                    expect(subject.counts_spaces(board_1[0][0..-2])).to eq([0, 1])
-                end
-           end
+           context 'first and last black' do
+            it 'sends false' do
+                board_1[0][0] = "\u26AB"
 
-           context 'player 2 with more' do 
-            before do
-                board_1[0][-2] = "\u26AB"
-                board_1[0][-3] = "\u26AB"
+                board_1[0][3] = "\u26AB"
+                expect(subject.four_equals(board_1[0])).to be_falsy
             end
-                it 'changes counter_2' do
-                    expect(subject.counts_spaces(board_1[0][0..-2])).to eq([0, 2])
-                end
            end
-        end
-
-        describe 'identify if a count is bigger than 3' do
-            context 'identify if count_1 is >= 3' do
-                it 'is bigger than 3' do
-                    expect(subject.stopper).to be_truthy
-                end
-            end
-        
         end
     end
 end

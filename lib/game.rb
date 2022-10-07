@@ -11,23 +11,15 @@ class Game
 
     end
 
-    def counts_spaces(board, counter_1 = 0, counter_2 = 0)
-        for i in 0..board.size-1
-            if  board[i] == "\u26AA"
-                counter_1 += 1 &&  counter_2 = 0
-            elsif board[i] == "\u26AB"
-                counter_1 = 0 && counter_2 += 1
-            else
-                counter_1 = 0 && counter_2 = 0
-            end
-         end
-        [counter_1, counter_2]
+    def four_equals(array)
+        array.each_cons(4) do |one, two, three, four|
+            arr = [one, two, three, four].uniq
+            return arr if arr.uniq.size == 1                      
+        end 
+        false       
     end
 
-    def stopper(counter_1)
 
-        
-    end
 
     
 end

@@ -1,5 +1,7 @@
 require_relative 'unicode'
 
+
+require 'pry-byebug'
 class Board
   attr_accessor :board, :printing_press
 
@@ -33,18 +35,27 @@ class Board
     array
   end
 
-  def printing_ready(board, counter = 0, array = [])
+  def horizontal(board, counter = 0, array = [])
     return if counter == board.size
 
     array << printer(board, counter)
-    printing_ready(board, counter + 1, array)
+    horizontal(board, counter + 1, array)
     array
+  end
+
+  def diagonal_board(board, column, row, result = [])
+    return if row == board.size
+
+    result << board[column][row]
+    diagonal_board(board, column +=1, row +=1, result)  
+    result
+
   end
 
   def printing_board(board, row = 0)
     return if row == board.size
 
-    printing_array = printing_ready(board)
+    printing_array = horizontal(board)
     printing_board(board, row + 1)
     puts " #{printing_array[row].join('  ')} "
   end
@@ -54,6 +65,8 @@ class Board
     printing_board(board)
     puts "\n"
   end
+
+  
 end
 
 
