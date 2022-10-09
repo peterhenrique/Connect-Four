@@ -11,17 +11,10 @@ class Game
 
     end
 
-    def four_equals(array)
-        array.each_cons(4) do |one, two, three, four|
-            arr = [one, two, three, four].uniq
-            return arr if arr.uniq.size == 1                      
-        end 
-        false       
+    def turn(array, symbol, counter = 0)
+        array[counter] == "\u25EF" ? array[counter] = symbol : turn(array, symbol, counter += 1)
     end
 
-    def evaluate_column(column)
-
-    end
 
 
 
