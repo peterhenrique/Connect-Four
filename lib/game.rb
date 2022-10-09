@@ -19,6 +19,10 @@ class Game
         false       
     end
 
+    def evaluate_column(column)
+
+    end
+
 
 
     

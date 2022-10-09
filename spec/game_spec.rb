@@ -1,9 +1,7 @@
 require_relative '../lib/game'
 
 describe Game do
-    describe 'find winner' do
-
-
+    describe 'four_equals' do
         context '#finds 4 equals' do
             subject(:game_1) { described_class.new(7) }            
 
@@ -47,6 +45,21 @@ describe Game do
                 expect(subject.four_equals(board_1[0])).to be_falsy
             end
            end
+        end
+    end
+
+    describe 'evaluate_column' do
+        subject(:game_2) { described_class.new(4) }            
+
+        let(:board_2) {subject.board}
+
+        context 'all are equal' do
+            it 'returns an array with all possible columns to be evaluated' do
+                horizontal = board_2.horizontal(board_2)
+                diagonal = board_2.diagonal_board(subject.diagonal_board(array, 0, 0))
+                inverted_diagonal_board = board_2.inverted_diagonal_board(array, 0, 0, 3)
+                expect(subject.find_winner(board_2[0])).to eql([board_2[0], horizontal[0], diagonal, inverted_diagonal_board])
+            end
         end
     end
 end

@@ -12,10 +12,12 @@ class Board
     #printing_press(@board)
   end
 
+#### creating board
+
+
   def create_grid(column)
     Array.new(column) { Array.new(column, board_unicode) }
   end
-
 
   def first_number(array)
     array.each_with_index { |subarray, index| subarray[-1] = index + 1 }
@@ -25,10 +27,8 @@ class Board
     array = create_grid(column)
     first_number(array)
   end
-
-  def show_board
-    puts "#{@board[0][0]} #{@board[1][0]} "
-  end
+  
+#evaluation
 
   def printer(board, column, array = [])
     board.each_with_index { |_coluna, index| array << board[index][column - 1] }
@@ -49,8 +49,54 @@ class Board
     result << board[column][row]
     diagonal_board(board, column +=1, row +=1, result)  
     result
-
   end
+
+  def inverted_diagonal_board(board, column, row, result = [])
+    result << board[column][row]
+    return if row == board.size - 1
+
+    inverted_diagonal_board(board, column -1, row += 1, result)
+    result
+  end
+  
+
+  
+  def four_equals(array)
+    array.each_cons(4) do |one, two, three, four|
+        arr = [one, two, three, four].uniq
+        return arr if arr.uniq.size == 1                      
+    end 
+    false       
+  end
+
+  def organize_to_evaluate(board, column, row)
+    horizontal = horizontal(board)
+    diagonal_board = diagonal_board(board, column, row)
+    inverted_diagonal_board = inverted_diagonal_board(board, column, row)
+    return [board[row], horizontal[row], diagonal_board, inverted_diagonal_board]    
+  end
+
+  def board_evaluator_column(board, column, column_to_evaluate = [], avaluated = [])
+    i = 0
+    until i == board.size-1
+
+      column_to_evaluate = organize_to_evaluate(board, column, i)
+      j = 0
+      until j == board.size - 1
+        avaluated = four_equals(column_to_evaluate[j])
+        return avaluated if avaluated == ["\u26AB"]
+        
+        j += 1
+      end
+      i += 1
+    end
+
+    avaluated
+
+    
+  end
+
+#show board
 
   def printing_board(board, row = 0)
     return if row == board.size
@@ -65,8 +111,8 @@ class Board
     printing_board(board)
     puts "\n"
   end
-
-  
 end
+
+
 
 
