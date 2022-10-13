@@ -74,6 +74,11 @@ describe Board do
         array_test = subject.inverted_diagonal_board(array, 3, 1)
         expect(array_test).to eq([array[3][1], array[2][2], array[1][3]])
       end
+
+      it 'creates from the first[0]' do
+        array_test = subject.inverted_diagonal_board(array, 0, 0)
+        expect(array_test).to eq([array[0][0]])
+      end
     end
   end
 
@@ -87,7 +92,7 @@ describe Board do
 
        context 'is truthy' do 
         it 'identifies all empty' do
-            expect(subject.four_equals(board_1[0])).to eq(["\u25EF"])
+            expect(subject.four_equals(board_1[0])).to be_falsy
         end
        end
 
@@ -165,7 +170,8 @@ describe Board do
         board_3[0][0] = "\u26AB"
         board_3[0][1] = "\u26AB"
         board_3[0][2] = "\u26AB"
-        board_3[0][3] = "\u26AB"       
+        board_3[0][3] = "\u26AB" 
+        
 
 
         expect(subject.board_evaluator_column(board_3, 0)).to eq(["\u26AB"])
@@ -175,7 +181,10 @@ describe Board do
         board_3[0][0] = "\u26AB"
         board_3[1][1] = "\u26AB"
         board_3[2][2] = "\u26AB"
-        board_3[3][3] = "\u26AB"       
+        board_3[3][3] = "\u26AB" 
+        
+        #p board_3
+
 
 
         expect(subject.board_evaluator_column(board_3, 0)).to eq(["\u26AB"])

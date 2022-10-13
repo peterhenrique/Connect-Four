@@ -1,10 +1,10 @@
 require_relative 'unicode'
 class Player
-    attr_accessor :input, :name
+    attr_accessor :symbol, :name, :score
     include Unicode
-    def initialize(name, input, score)
+    def initialize(name, symbol, score)
         @name = name
-        @input = input
+        @symbol = symbol
         @score = score
     end
 

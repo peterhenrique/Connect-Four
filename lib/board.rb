@@ -9,7 +9,7 @@ class Board
 
   def initialize(number)
     @board = create_board(number)
-    #printing_press(@board)
+   # printing_press
   end
 
 #### creating board
@@ -43,18 +43,24 @@ class Board
     array
   end
 
-  def diagonal_board(board, column, row, result = [])
+  def diagonal_board(board, column, row, result = [])    
     return if row == board.size
 
     result << board[column][row]
-    diagonal_board(board, column +=1, row +=1, result)  
+
+
+    diagonal_board(board, column += 1, row += 1, result)  
     result
   end
 
   def inverted_diagonal_board(board, column, row, result = [])
-    result << board[column][row]
-    return if row == board.size - 1
 
+    return if row >= board.size
+
+    result << board[column][row]
+
+
+    return result if column == 0
     inverted_diagonal_board(board, column -1, row += 1, result)
     result
   end
@@ -62,9 +68,10 @@ class Board
 
   
   def four_equals(array)
-    array.each_cons(4) do |one, two, three, four|
-        arr = [one, two, three, four].uniq
-        return arr if arr.uniq.size == 1                      
+    return false if array.nil?
+   array.each_cons(4) do |one, two, three, four|
+        arr = [one, two, three, four].uniq        
+        return arr if arr.uniq.size == 1 unless arr == [board_unicode]                     
     end 
     false       
   end
@@ -72,19 +79,20 @@ class Board
   def organize_to_evaluate(board, column, row)
     horizontal = horizontal(board)
     diagonal_board = diagonal_board(board, column, row)
+    
     inverted_diagonal_board = inverted_diagonal_board(board, column, row)
     return [board[row], horizontal[row], diagonal_board, inverted_diagonal_board]    
   end
 
   def board_evaluator_column(board, column, column_to_evaluate = [], avaluated = [])
     i = 0
-    until i == board.size-1
+    until i == board.size 
 
       column_to_evaluate = organize_to_evaluate(board, column, i)
       j = 0
-      until j == board.size - 1
+      until j == board.size 
         avaluated = four_equals(column_to_evaluate[j])
-        return avaluated if avaluated == ["\u26AB"]
+        return avaluated if avaluated != false
         
         j += 1
       end
@@ -103,10 +111,10 @@ class Board
 
     printing_array = horizontal(board)
     printing_board(board, row + 1)
-    puts " #{printing_array[row].join('  ')} "
+    puts " #{printing_array[row].join('  ')}"
   end
 
-  def printing_press(board)
+  def printing_press(board = @board)
     puts "\n"
     printing_board(board)
     puts "\n"
